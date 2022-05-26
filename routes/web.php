@@ -42,6 +42,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/register', 'UserController@store')->name('register.store');
     Route::get('/login', 'UserController@loginForm')->name('login.create');
     Route::post('/login', 'UserController@login')->name('login.store');
+    Route::get('/new-request', 'UserController@newRequest')->name('newrequest.new');
+    Route::post('/new-request', 'UserController@createRequest')->name('newrequest.create-request');
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -50,7 +52,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/account-settings', 'UserController@storeSettings')->name('profile.store');
 });
 
+
 Route::group(['middleware' => 'admin'], function () {
-//    Route::get('account-settings', '')
+    Route::get('/qr-code-generator', 'QRCodeController@index')->name('qrcode.index');
+    Route::post('/qr-code-generator/create', 'QRCodeController@create')->name('qrcode.create');
+    Route::get('/qr-code-generator-1', 'QRCodeController@filterQR')->name('qrcode.filterQR');
+    Route::get('/tests', function () {
+        return view('test');
+    });
+});
+
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('/write-off', 'WordDocsController@index')->name('word.index');
+    Route::get('/write-off-filter', 'WordDocsController@filter')->name('word.filter');
+    Route::post('/write-off/create', 'WordDocsController@create')->name('word.create');
 });
 
